@@ -31,7 +31,7 @@ There's a bunch of filters and transformations that can be applied to the layers
 | url*       | Path to Image File                 |              |
 | height*    | Layer Height                       |              |
 | width*     | Layer Width                        |              |
-| repeat     | Background Tiling                  | `none`       |
+| repeat     | Background Tiling                  | `no-repeat`  |
 | x          | Horizontal Offset                  | `0`          |
 | y          | Vertical Offset                    | `0`          |
 | z          | Scroll Speed                       | `100`        |
