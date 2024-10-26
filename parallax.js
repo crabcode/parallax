@@ -3,23 +3,23 @@ window.Parallax = {
 	
 	add: function({
 			id, url, width, height, repeat = false, 
-			x = 0, y = 0, z = 100, sX = 1, sY = 1,
+			speed = 100, x = 0, y = 0, sX = 1, sY = 1,
 			opacity = 100, scale = 1, rotation = 0,
 			contrast = 100, brightness = 100, saturation = 100,
 			hue = 0, blur = 0, grayscale = 0, invert = 0, sepia = 0
 		 })
 	{
 		let scroll = this._getScrollPosition();
-		z = (1 - (z / 100));
+		speed = (1 - (speed / 100));
 		
 		let div = document.createElement("div");
 		div.id = id;
 		div.className = "parallax-layer";
 		div.style.backgroundImage = `url(${url})`;
 		div.style.position = "absolute";
-		div.style.top = (y + (scroll.top * z * sY))  + "px";
-		div.style.left = (x + (scroll.left * z * sX))  + "px";
-		div.style.zIndex = z * -1000;
+		div.style.top = (y + (scroll.top * speed * sY))  + "px";
+		div.style.left = (x + (scroll.left * speed * sX))  + "px";
+		div.style.zIndex = speed * -1000;
 		div.style.width = width + "px";
 		div.style.height = height + "px";
 		div.style.backgroundRepeat = repeat ? "repeat" : "no-repeat";
@@ -30,13 +30,13 @@ window.Parallax = {
 		
 		this._layers[id] = {
 			div, url, width, height, repeat,
-			x, y, z, sX, sY,
+			speed, x, y, sX, sY,
 			opacity, scale, rotation,
 			contrast, brightness, saturation,
 			hue, blur, grayscale, invert, sepia,
 		};
 		
-		if (this.onAdd) this.onAdd({ layer, scroll, ref: this });
+		if (this.onAdd) this.onAdd({ layer: this._layers[id], scroll, ref: this });
 	},
 	
 	destroy: function()
@@ -49,7 +49,7 @@ window.Parallax = {
 		this._container = null;
 	},
 	
-	init: function(id)
+	init: function(id, useObserver = false)
 	{
 		let container = document.querySelector(id);
 		if (!container) throw new Error(id + " not found.");
@@ -63,8 +63,11 @@ window.Parallax = {
 		for (let id of Object.keys(this._layers)) container.prepend(this._layers[id].div);
 		this._container = container;
 		
-		this._observer = new MutationObserver(this._onResize.bind(this));
-		this._observer.observe(document.body, { childList: true, subtree: true, attributes: false, });
+		if (useObserver)
+		{
+			this._observer = new MutationObserver(this._onResize.bind(this));
+			this._observer.observe(document.body, { childList: true, subtree: true, attributes: false, });
+		}
 		
 		window.addEventListener("resize", this._onResize.bind(this));
 		window.addEventListener("scroll", this._onScroll.bind(this));
@@ -87,8 +90,8 @@ window.Parallax = {
 		for (let id of Object.keys(this._layers))
 		{
 			let l = this._layers[id];
-			l.div.style.top = Math.round(l.y + (scroll.top * l.z * l.sY))  + "px";
-			l.div.style.left = Math.round(l.x + (scroll.left * l.z * l.sX))  + "px";
+			l.div.style.top = Math.round(l.y + (scroll.top * l.speed * l.sY))  + "px";
+			l.div.style.left = Math.round(l.x + (scroll.left * l.speed * l.sX))  + "px";
 		}
 		
 		if (this.onScroll) this.onScroll({ scroll, event: e, ref: this });
