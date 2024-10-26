@@ -12,15 +12,15 @@ When the page is loaded, add the parallax layers and initialize like so:
 ```
 <script>
   window.onload = () => {
-    Parallax.add({ id: "background", url: "/path/to/background.png", width: 1920, height: 1080, z: 10 });
-    Parallax.add({ id: "middle",     url: "/path/to/middle.png",     width: 1920, height: 1080, z: 20 });
-    Parallax.add({ id: "foreground", url: "/path/to/foreground.png", width: 1920, height: 1080, z: 50 });
+    Parallax.add({ id: "background", url: "/path/to/background.png", width: 1920, height: 1080, speed: 10 });
+    Parallax.add({ id: "middle",     url: "/path/to/middle.png",     width: 1920, height: 1080, speed: 20 });
+    Parallax.add({ id: "foreground", url: "/path/to/foreground.png", width: 1920, height: 1080, speed: 50 });
     Parallax.init("#containerID");
   };
 </script>
 ```
 
-The minimum needed is the `id`, `url`, `width`, and `height`. The `z` value is essentially a speed percentage (i.e. ```z: 10``` means it moves at 10% scroll speed).
+The minimum needed is the `id`, `url`, `width`, and `height`. The `speed` value is a percentage (i.e. ```speed: 10``` means it moves at 10% scroll speed).
 
 ## Customization
 There's a bunch of filters and transformations that can be applied to the layers:
@@ -31,12 +31,12 @@ There's a bunch of filters and transformations that can be applied to the layers
 | url*       | Path to Image File                 |              |
 | height*    | Layer Height                       |              |
 | width*     | Layer Width                        |              |
-| repeat     | Background Tiling                  | `no-repeat`  |
+| speed      | Scroll Speed                       | `100`        |
 | x          | Horizontal Offset                  | `0`          |
 | y          | Vertical Offset                    | `0`          |
-| z          | Scroll Speed                       | `100`        |
 | sX         | Horizontal Scroll Speed Multiplier | `1`          |
 | sY         | Vertical Scroll Speed Multiplier   | `1`          |
+| repeat     | Background Tiling                  | `no-repeat`  |
 | opacity    | Layer Opacity                      | `100`        |
 | scale      | Layer Scale                        | `1`          |
 | rotation   | Layer Rotation                     | `0`          |
@@ -56,7 +56,7 @@ There's a bunch of filters and transformations that can be applied to the layers
 | Function        | Description                                                |
 |-----------------|------------------------------------------------------------|
 | add(options)    | Add new layer (Options listed above)                       |
-| init(container) | Initialize the Parallax effect with the container selector |
+| init(container, useObserver) | Initialize the Parallax effect with the container selector. `useObserver` is needed if your page has dynamically loading content. Defaults to `false`. |
 | destroy()       | Remove and destroy the Parallax effect                     |
 
 ## Events
