@@ -10,12 +10,14 @@ You can either download and include the script as usual, or link to the version 
 When the page is loaded, add the parallax layers and initialize like so:
 
 ```
-window.onload = () => {
-  Parallax.add({ id: "background", url: "/path/to/background.png", width: 1920, height: 1080, z: 10 });
-  Parallax.add({ id: "middle",     url: "/path/to/middle.png",     width: 1920, height: 1080, z: 20 });
-  Parallax.add({ id: "foreground", url: "/path/to/foreground.png", width: 1920, height: 1080, z: 50 });
-  Parallax.init("#containerID");
-};
+<script>
+  window.onload = () => {
+    Parallax.add({ id: "background", url: "/path/to/background.png", width: 1920, height: 1080, z: 10 });
+    Parallax.add({ id: "middle",     url: "/path/to/middle.png",     width: 1920, height: 1080, z: 20 });
+    Parallax.add({ id: "foreground", url: "/path/to/foreground.png", width: 1920, height: 1080, z: 50 });
+    Parallax.init("#containerID");
+  };
+</script>
 ```
 
 The minimum needed is the `id`, `url`, `width`, and `height`. The `z` value is essentially a speed percentage (i.e. ```z: 10``` means it moves at 10% scroll speed).
